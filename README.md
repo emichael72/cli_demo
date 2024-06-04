@@ -1,4 +1,4 @@
-# CLI Engine
+# CLI Engine.
 
 ## Features
 
@@ -9,7 +9,7 @@
 5. Automatic 'help' generation.
 6. Optional local echo support.
 
-## Building
+## Building.
 
 To build the project, simply run:
 
@@ -19,10 +19,15 @@ make
 
 ```
 
-## Supported Platforms
+## Supported Platforms.
 
 The code compiles and runs on **Linux**.
 
-## RTOS Ports
+## Executing
+
+`build/release/cli_demo`
+
+## RTOS Ports.
 
 The thread running the CLI engine is designed to mimic a typical scheduler as closely as possible.
+
