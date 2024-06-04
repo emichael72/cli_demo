@@ -1,7 +1,10 @@
+
 /**
   ******************************************************************************
+  *
   * @file    main.c
   * @brief   CLI Engine demo.
+  * 
   ******************************************************************************
   */
 
@@ -13,6 +16,7 @@
   * @brief  Initialize and start the CLI.
   * @retval bool - true if initialization is successful, false otherwise.
   */
+
 static bool CLI_Start(void)
 {
     CLI_InitTypeDef cliInit = {0};
@@ -47,15 +51,22 @@ int main(void)
     /* Start the CLI */
     if (!CLI_Start())
     {
-	   printf("Error: copul start CLI Demo.\n");
+	   printf("Error: could not start CLI Demo.\n");
 	   return EXIT_FAILURE;
     }
 
     /* Add few commands and build the CLI table */
     cli_addCommands();
+
+    /* 
+     * You can 'inject' CLI commands multiple times from various modules. 
+     * However, once you call 'CLI_BuildTable', you will not be able to add more 
+     * commands.
+     */
+
     CLI_BuildTable();
 
-    /* Main loop, the can exit ny typing 'exit' */
+    /* Main loop, the can exit by typing 'exit' */
     while (1)
     {
         sleep(1);
