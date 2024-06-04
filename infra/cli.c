@@ -1,7 +1,10 @@
+
 /**
   ******************************************************************************
+  *
   * @file    cli.c
- *  @brief   The brain behind this awesome CLI module.
+  * @brief   The brain behind this awesome CLI module.
+  *
   ******************************************************************************
   */
 
@@ -29,6 +32,7 @@
   *   Escape sequence processing stuff
   *
   *****************************************************************************/
+  
 #define CLI_ARROW_UP         200
 #define CLI_ARROW_DOWN       201
 #define CLI_TAB              202
@@ -61,10 +65,6 @@
   * @brief
   *  Local types and structures.
   */
-
-/* Escape sequence:
- * https://en.wikipedia.org/wiki/Escape_sequences_in_C#:~:text=An%20escape%20sequence%20is%20a,or%20impossible%20to%20represent%20directly.
- */
 
 typedef struct __CLI_EscTypeDef
 {
@@ -124,7 +124,7 @@ typedef struct __CLI_DataTypeDef
     bool                      echo;                                  /* Do we have to echo back to the terminal? */
     bool                      locked;                                /* Locks the CLI. */
     bool                      autoLowerCase;                         /* Force lower case input. */
-    bool                      commandsSorted;                        /*Use binary searching. */
+    bool                      commandsSorted;                        /* Use binary searching. */
 
 } CLI_DataTypeDef;
 
