@@ -1,7 +1,8 @@
+
 /**
  *******************************************************************************
- * @file    infra.h
- * @author
+ * 
+ * @file   infra.h
  * @brief  Place older for a more comprehensive project main header file.
  *
  *******************************************************************************
@@ -17,7 +18,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-
 
 /** @addtogroup CORE_LIB
   * @{
@@ -51,6 +51,5 @@ typedef enum
     HAL_TIMEOUT = 0x03U
 
 } HAL_StatusTypeDef;
-
 
 #endif /* __INFRA_H__ */

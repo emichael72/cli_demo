@@ -1,5 +1,4 @@
 
-
 /**
   ******************************************************************************
   *
@@ -10,7 +9,7 @@
   ******************************************************************************
   */
 
-#include "cli.h"  /* Command line interface task */
+#include "cli.h" /* Command line interface task */
 #include "ansi.h"
 #include <stdio.h>
 
@@ -20,7 +19,7 @@
  * @param argv Argument vector
  * @return EXIT_SUCCESS on success
  */
- 
+
 int cli_exit(int argc, char **argv)
 {
     /* Dump help and exit */
@@ -41,7 +40,7 @@ int cli_exit(int argc, char **argv)
  * @param argv Argument vector
  * @return EXIT_SUCCESS on success
  */
- 
+
 int cli_mcuReset(int argc, char **argv)
 {
     /* Dump help and exit */
@@ -58,7 +57,7 @@ int cli_mcuReset(int argc, char **argv)
  * @param argv Argument vector
  * @return EXIT_SUCCESS on success
  */
- 
+
 int cli_ver(int argc, char **argv)
 {
     /* Dump help and exit */
@@ -78,20 +77,22 @@ int cli_ver(int argc, char **argv)
 
 int cli_add(int argc, char **argv)
 {
-    
+
     /* Dump help and exit */
     CLI_SHOW_HELP("Add 2 numbers.");
 
-    if (argc != 3) {
+    if ( argc != 3 )
+    {
         printf("Usage: %s <num1> <num2>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
     char *endptr1, *endptr2;
-    long num1 = strtol(argv[1], &endptr1, 10);
-    long num2 = strtol(argv[2], &endptr2, 10);
+    long  num1 = strtol(argv[1], &endptr1, 10);
+    long  num2 = strtol(argv[2], &endptr2, 10);
 
-    if (*endptr1 != '\0' || *endptr2 != '\0') {
+    if ( *endptr1 != '\0' || *endptr2 != '\0' )
+    {
         printf("Invalid number format.\n");
         return EXIT_FAILURE;
     }
@@ -108,18 +109,18 @@ int cli_add(int argc, char **argv)
  * @param argv Argument vector
  * @return EXIT_SUCCESS on success
  */
- 
+
 static int cli_help(int argc, char **argv)
 {
-    int i = 0;
-    static char *p_arg = "@";
+    int             i         = 0;
+    static char    *p_arg     = "@";
     CLI_CmdTypeDef *p_command = CLI_GetCommandsPtr();
 
     /* Dump help and exit */
     CLI_SHOW_HELP("List commands.");
 
     printf("\r\n");
-    while (p_command && i < CLI_GetCommandCnt())
+    while ( p_command && i < CLI_GetCommandCnt() )
     {
         printf(ANSI_CYAN "%-20s " ANSI_MODE, p_command->Name);
 
@@ -138,7 +139,7 @@ static int cli_help(int argc, char **argv)
 /**
  * @brief Registers the CLI commands in this module with the CLI engine.
  */
- 
+
 void cli_addCommands(void)
 {
     /* clang-format off */

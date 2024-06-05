@@ -40,6 +40,6 @@
 #define ANSI_FG_DEFAULT  "\033[0;39m"
 #define ANSI_BG_DEFAULT  "\033[0;49m"
 #define ANSI_MODE        ANSI_CURSOR_ON ANSI_BG_DEFAULT ANSI_FG_DEFAULT
-#define ANSI_SPACES "                                " /* 32 Spaces */
+#define ANSI_SPACES      "                                " /* 32 Spaces */
 
 #endif /* __ANSI_H__  */

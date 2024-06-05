@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "llist.h" 	/* Basic lists manipulation */
+#include "llist.h" /* Basic lists manipulation */
 
 /** @defgroup CLI CLI
   * @brief CLI module
@@ -32,7 +32,7 @@
   *   Escape sequence processing stuff
   *
   *****************************************************************************/
-  
+
 #define CLI_ARROW_UP         200
 #define CLI_ARROW_DOWN       201
 #define CLI_TAB              202
@@ -87,7 +87,7 @@ typedef enum __CLI_EexecTypeDef
   */
 typedef struct __CLI_TableNode_TypeDef
 {
-    const CLI_CmdTypeDef *          table; /* pointer to a commands table instance */
+    const CLI_CmdTypeDef           *table; /* pointer to a commands table instance */
     uint32_t                        items; /* Count of table elements */
     struct __CLI_TableNode_TypeDef *next;  /* Next pointer to the other siblings nodes */
 
@@ -101,30 +101,30 @@ typedef struct __CLI_TableNode_TypeDef
 typedef struct __CLI_DataTypeDef
 {
 
-    char                      line[CLI_MAX_HISTORY_LINES][CLI_MAX_LINE_LENGTH + 16]; /* Command buffer. */
-    char                      argvBuf[CLI_MAX_LINE_LENGTH + 16];     /* Command line is copied here before execution; then it will be tokenized. */
-    char                      prompt[CLI_MAX_PROMPT + 2];            /* Prompt textual buffer. */
-    CLI_CmdTypeDef *          cmnds;                                 /* Commands array. */
-    CLI_TableNode_TypeDef *   cmndsTableHead;                        /* Multiple linked CLI tables */
-    char *                    completion[CLI_MAX_COMPLETIONS];       /* Command completion */
-    CLI_InitTypeDef           cliInitData;                           /* CLI configuration provided when initialized. */
-    CLI_ExecTypeDef           execType;                              /* What to do when we're being triggered from a task context. */
-    uint16_t                  cmndsCount;                            /* Count of loaded commands. */
-    uint8_t                   lineIdx;                               /* Index in the history array. */
-    uint8_t                   lineCurrent;                           /* Where current command is stored. */
-    uint8_t                   LineCount;                             /* How many command stored at all */
-    uint8_t                   LineBack;                              /* Index of command when walking through history */
-    uint32_t                  cmndEvent;                             /* Event to raise  when a command is pending execution. */
-    uint8_t                   prmpSize;                              /* Prompt length. */
-    CLI_EscTypeDef            escapeSequence[CLI_MAX_ESCAPE];        /* Escape sequence container for arrow up and arrow down. */
-    bool                      receivingEscapeSequence;               /* Escape sequence. */
-    char                      CurrentEscapeSequence[CLI_MAX_ESCAPE]; /* Escape sequence. */
-    uint8_t                   CurrentEscapeSequenceCount;            /* Escape sequence. */
-    bool                      initialized;                           /* Module initialization flag. */
-    bool                      echo;                                  /* Do we have to echo back to the terminal? */
-    bool                      locked;                                /* Locks the CLI. */
-    bool                      autoLowerCase;                         /* Force lower case input. */
-    bool                      commandsSorted;                        /* Use binary searching. */
+    char                   line[CLI_MAX_HISTORY_LINES][CLI_MAX_LINE_LENGTH + 16]; /* Command buffer. */
+    char                   argvBuf[CLI_MAX_LINE_LENGTH + 16];                     /* Command line is copied here before execution; then it will be tokenized. */
+    char                   prompt[CLI_MAX_PROMPT + 2];                            /* Prompt textual buffer. */
+    CLI_CmdTypeDef        *cmnds;                                                 /* Commands array. */
+    CLI_TableNode_TypeDef *cmndsTableHead;                                        /* Multiple linked CLI tables */
+    char                  *completion[CLI_MAX_COMPLETIONS];                       /* Command completion */
+    CLI_InitTypeDef        cliInitData;                                           /* CLI configuration provided when initialized. */
+    CLI_ExecTypeDef        execType;                                              /* What to do when we're being triggered from a task context. */
+    uint16_t               cmndsCount;                                            /* Count of loaded commands. */
+    uint8_t                lineIdx;                                               /* Index in the history array. */
+    uint8_t                lineCurrent;                                           /* Where current command is stored. */
+    uint8_t                LineCount;                                             /* How many command stored at all */
+    uint8_t                LineBack;                                              /* Index of command when walking through history */
+    uint32_t               cmndEvent;                                             /* Event to raise  when a command is pending execution. */
+    uint8_t                prmpSize;                                              /* Prompt length. */
+    CLI_EscTypeDef         escapeSequence[CLI_MAX_ESCAPE];                        /* Escape sequence container for arrow up and arrow down. */
+    bool                   receivingEscapeSequence;                               /* Escape sequence. */
+    char                   CurrentEscapeSequence[CLI_MAX_ESCAPE];                 /* Escape sequence. */
+    uint8_t                CurrentEscapeSequenceCount;                            /* Escape sequence. */
+    bool                   initialized;                                           /* Module initialization flag. */
+    bool                   echo;                                                  /* Do we have to echo back to the terminal? */
+    bool                   locked;                                                /* Locks the CLI. */
+    bool                   autoLowerCase;                                         /* Force lower case input. */
+    bool                   commandsSorted;                                        /* Use binary searching. */
 
 } CLI_DataTypeDef;
 
@@ -149,18 +149,17 @@ static CLI_DataTypeDef gCliData = {0};
   * @{
   */
 
-
 /**
  * @brief
  *   STD C: Simple byte by byte terminal printer. */
 
 static void CLI_PutByte(char c)
 {
-	if(gCliData.cliInitData.handlers.putc)
-	{
-		putchar(c);
-		fflush(stdout);
-	}
+    if ( gCliData.cliInitData.handlers.putc )
+    {
+        putchar(c);
+        fflush(stdout);
+    }
 }
 
 /**
@@ -176,7 +175,7 @@ static void CLI_Print(char *s, int len)
             /* GCC pedantic: array subscript 1 is outside array bounds of 1 */
             if ( len == 1 )
             {
-            	CLI_PutByte(*s);
+                CLI_PutByte(*s);
                 return;
             }
 
@@ -322,10 +321,10 @@ static uint8_t CLI_TabCompleter(char *cmpLine, uint8_t cmpLen)
 
     if ( completionCount > 0 )
     {
-        char *  lcd  = gCliData.completion[0] + cmpLen;
+        char   *lcd  = gCliData.completion[0] + cmpLen;
         uint8_t plen = (uint8_t) strlen(lcd);
         uint8_t nlen = 0;
-        char *  line = gCliData.line[gCliData.lineCurrent];
+        char   *line = gCliData.line[gCliData.lineCurrent];
 
         for ( i = 1; i < completionCount; i++ )
         {
@@ -482,8 +481,8 @@ static void CLI_EraseLine(void)
 static bool cliRetrieveHistory(void)
 {
     uint8_t history_idx = 0;
-    char *  src_line    = NULL; /* Copy command line from here. */
-    char *  dst_line    = NULL; /* Copy command line there. */
+    char   *src_line    = NULL; /* Copy command line from here. */
+    char   *dst_line    = NULL; /* Copy command line there. */
     int     len;
 
     CLI_EraseLine();
@@ -520,7 +519,7 @@ static bool cliRetrieveHistory(void)
 static int CLI_ParseEndExec(CLI_CmdTypeDef *pCommand, char line[])
 {
     /* Parameter token pointers. */
-    char *  param[CLI_MAX_NUM_PARAMS];
+    char   *param[CLI_MAX_NUM_PARAMS];
     uint8_t paramCount = 0;
     uint8_t i          = 0;
     uint8_t handled    = 0;
@@ -721,7 +720,7 @@ static bool CLI_SearchAndExecute(void)
 
 /**
  * @brief
- *   Get's a pointer to the internal stored command.
+ *   Get's a pointer to the internal stored commands table.
  *   Caller must validate the returned pointer prior to using it.
  * @retval Pointer to the stored commands or NULL on error.
  */
@@ -732,21 +731,6 @@ CLI_CmdTypeDef *CLI_GetCommandsPtr(void)
         return gCliData.cmnds;
 
     return NULL;
-}
-
-/**
- * @brief
- *   Print the command prompt.
- * @param addCrLfCnt: Count of "\r\n" to add before.
- */
-
-void CLI_PrintPrompt(int addCrLfCnt)
-{
-    if ( gCliData.locked == false )
-    {
-        while ( addCrLfCnt-- > 0 ) CLI_SEND_CRLF(); /* Dump '\r\n' */
-        CLI_Print(gCliData.prompt, gCliData.prmpSize);
-    }
 }
 
 /**
@@ -762,6 +746,21 @@ int CLI_GetCommandCnt(void)
         return 0;
 
     return gCliData.cmndsCount;
+}
+
+/**
+ * @brief
+ *   Print the command prompt.
+ * @param addCrLfCnt: Count of "\r\n" to add before.
+ */
+
+void CLI_PrintPrompt(int addCrLfCnt)
+{
+    if ( gCliData.locked == false )
+    {
+        while ( addCrLfCnt-- > 0 ) CLI_SEND_CRLF(); /* Dump '\r\n' */
+        CLI_Print(gCliData.prompt, gCliData.prmpSize);
+    }
 }
 
 /**
@@ -781,7 +780,7 @@ int CLI_InjectCommands(const CLI_CmdTypeDef *table, int items)
     if ( table == NULL || items == 0 || gCliData.commandsSorted == true )
         return 0;
 
-    instance =  gCliData.cliInitData.handlers.malloc(sizeof(CLI_TableNode_TypeDef)); /* Allocate node pointer */
+    instance = gCliData.cliInitData.handlers.malloc(sizeof(CLI_TableNode_TypeDef)); /* Allocate node pointer */
     if ( instance == NULL )
         return 0; /* No memory */
 
@@ -817,7 +816,7 @@ bool CLI_BuildTable(void)
     do
     {
         /* Make sure we ware not already aggregated and sorted */
-        if (gCliData.commandsSorted || gCliData.cmndsTableHead == NULL )
+        if ( gCliData.commandsSorted || gCliData.cmndsTableHead == NULL )
             break; /* Must call ProtoTable_SetMemory() first */
 
         /* Count all entries thought all instances so we could calculate
@@ -833,7 +832,7 @@ bool CLI_BuildTable(void)
         total_mem = ((total_items + 1) * sizeof(CLI_CmdTypeDef));
 
         /* Attempt to allocate */
-        gCliData.cmnds =  gCliData.cliInitData.handlers.malloc(total_mem);
+        gCliData.cmnds = gCliData.cliInitData.handlers.malloc(total_mem);
         if ( gCliData.cmnds == NULL )
             break;
 
@@ -851,7 +850,8 @@ bool CLI_BuildTable(void)
                 /* Search for existing duplicated item */
                 for ( i = 0; i < gCliData.cmndsCount; i++ )
                 {
-                    if ( gCliData.cliInitData.handlers.stricmp((unsigned char *) gCliData.cmnds[i].Name, (unsigned char *) instance->table[position].Name) == 0 )
+                    if ( gCliData.cliInitData.handlers.stricmp((unsigned char *) gCliData.cmnds[i].Name, (unsigned char *) instance->table[position].Name) ==
+                         0 )
                     {
                         duplicate = true;
                         break;
@@ -1163,7 +1163,6 @@ bool CLI_Init(CLI_InitTypeDef *cliInit)
     return true;
 }
 
-
 /**
   * @}
   */
@@ -1171,4 +1170,3 @@ bool CLI_Init(CLI_InitTypeDef *cliInit)
 /**
   * @}
   */
-

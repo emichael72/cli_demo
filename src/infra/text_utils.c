@@ -2,8 +2,7 @@
 /**
   ******************************************************************************
   * @file    test_utils.c
-  * @author
- *  @brief   C misfits.
+  * @brief   C misfits.
   ******************************************************************************
   */
 
@@ -51,43 +50,41 @@ int __isspace(int c)
     return ((c == ' ') || (c == '\n') || (c == '\t'));
 }
 
-void
-__strrev(char *str)
+void __strrev(char *str)
 {
-	int i;
-	int j;
-	unsigned char a;
-	unsigned len = strlen((const char *)str);
-	for (i = 0, j = len - 1; i < j; i++, j--)
-	{
-		a = str[i];
-		str[i] = str[j];
-		str[j] = a;
-	}
+    int           i;
+    int           j;
+    unsigned char a;
+    unsigned      len = strlen((const char *) str);
+    for ( i = 0, j = len - 1; i < j; i++, j-- )
+    {
+        a      = str[i];
+        str[i] = str[j];
+        str[j] = a;
+    }
 }
 
-int
-__itoa(int num, char* str, int base)
+int __itoa(int num, char *str, int base)
 {
-	int sum = num;
-	int i = 0;
-	int digit;
-	int len = strlen(str);
+    int sum = num;
+    int i   = 0;
+    int digit;
+    int len = strlen(str);
 
-	do
-	{
-		digit = sum % base;
-		if (digit < 0xA)
-			str[i++] = '0' + digit;
-		else
-			str[i++] = 'A' + digit - 0xA;
-		sum /= base;
-	}while (sum && (i < (len - 1)));
-	if (i == (len - 1) && sum)
-		return -1;
-	str[i] = '\0';
-	__strrev(str);
-	return 0;
+    do
+    {
+        digit = sum % base;
+        if ( digit < 0xA )
+            str[i++] = '0' + digit;
+        else
+            str[i++] = 'A' + digit - 0xA;
+        sum /= base;
+    } while ( sum && (i < (len - 1)) );
+    if ( i == (len - 1) && sum )
+        return -1;
+    str[i] = '\0';
+    __strrev(str);
+    return 0;
 }
 
 /**
@@ -167,7 +164,6 @@ char *__strlwr(char *str)
     return str;
 }
 
-
 /**
  * @brief
  *  This function is an ANSI version of strstr() with
@@ -176,7 +172,7 @@ char *__strlwr(char *str)
 
 char *__stristr(const char *String, const char *Pattern)
 {
-    char *  pptr, *sptr, *start;
+    char   *pptr, *sptr, *start;
     int32_t slen, plen;
 
     for ( start = (char *) String, pptr = (char *) Pattern, slen = strlen(String), plen = strlen(Pattern);
@@ -215,7 +211,6 @@ char *__stristr(const char *String, const char *Pattern)
 
     return (NULL);
 }
-
 
 /**
  * @}

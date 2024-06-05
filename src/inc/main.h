@@ -13,6 +13,4 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-
 void cli_addCommands(void);
-

@@ -3,7 +3,7 @@
   ******************************************************************************
   *
   * @file    main.c
-  * @brief   CLI Engine demo.
+  * @brief   CLI Engine demo entry pointy.
   * 
   ******************************************************************************
   */
@@ -13,7 +13,7 @@
 #include "text_utils.h"
 
 /**
-  * @brief  Initialize and start the CLI.
+  * @brief  Initialize and start CLI engine.
   * @retval bool - true if initialization is successful, false otherwise.
   */
 
@@ -22,20 +22,22 @@ static bool CLI_Start(void)
     CLI_InitTypeDef cliInit = {0};
 
     cliInit.autoLowerCase = false;
-    cliInit.echo = true;
+    cliInit.echo          = true;
 
     /* Set the prompt */
     strncpy(cliInit.prompt, "Intel", sizeof(cliInit.prompt) - 1);
     cliInit.printPrompt = true;
 
-    /* Set the handler functions */
-    cliInit.handlers.itoa = __itoa;
-    cliInit.handlers.free = free;
-    cliInit.handlers.malloc = malloc;
-    cliInit.handlers.putc = ( __cli_putc)putc;
+    /* Set the handler functions, some of which may be available
+       by your compiler.*/
+
+    cliInit.handlers.itoa    = __itoa;
+    cliInit.handlers.free    = free;
+    cliInit.handlers.malloc  = malloc;
+    cliInit.handlers.putc    = (__cli_putc) putc;
     cliInit.handlers.stricmp = __stricmp;
     cliInit.handlers.stristr = __stristr;
-    cliInit.handlers.strlwr = __strlwr;
+    cliInit.handlers.strlwr  = __strlwr;
     cliInit.handlers.strtrim = __strtrim;
 
     return CLI_Init(&cliInit);
@@ -45,14 +47,23 @@ static bool CLI_Start(void)
   * @brief  Main function to start the CLI demo.
   * @retval int - EXIT_SUCCESS on successful execution.
   */
-  
+
 int main(void)
 {
-    /* Start the CLI */
-    if (!CLI_Start())
+
+    printf("\n---------------------------------------\n");
+    printf("\nGreetings!, welcome to 'CLI demo'.\n");
+    printf("Type 'exit' when you're done.\n");
+    printf("\n---------------------------------------\n");
+
+    /* Start CLI.
+       Note: this will spawn the an auxiliary task which will take care of 
+       executing CLI command. 
+    */
+    if ( ! CLI_Start() )
     {
-	   printf("Error: could not start CLI Demo.\n");
-	   return EXIT_FAILURE;
+        printf("Error: Could not start CLI Demo.\n");
+        return EXIT_FAILURE;
     }
 
     /* Add few commands and build the CLI table */
@@ -66,8 +77,8 @@ int main(void)
 
     CLI_BuildTable();
 
-    /* Main loop, the can exit by typing 'exit' */
-    while (1)
+    /* Continue with system boot.. */
+    while ( 1 )
     {
         sleep(1);
     }
